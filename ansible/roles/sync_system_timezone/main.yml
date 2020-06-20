@@ -1,0 +1,25 @@
+- name: Install ntp
+  yum:
+    name: "ntp"
+    state: latest
+
+- name: Restart ntp
+  shell: "systemctl restart ntpd"
+
+- name: Enable this services to run at every boot
+  shell: "systemctl enable ntpd"
+
+- name: Check original timezone
+  shell: "timedatectl status"
+  register: original_timezone
+
+- debug: msg="{{ original_timezone.stdout }}"
+
+- name: Set timezone
+  shell: timedatectl set-timezone "Asia/Taipei"
+
+- name: Check updated timezone
+  shell: "timedatectl status"
+  register: updated_timezone
+
+- debug: msg="{{ updated_timezone.stdout }}"

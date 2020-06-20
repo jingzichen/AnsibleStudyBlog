@@ -1,0 +1,4 @@
+- name: Check If "{{ command }}" Exist
+  command: which "{{ command }}"
+  register: existence
+  ignore_errors: yes

@@ -1,0 +1,31 @@
+- name: Create prometheus directory
+  file:
+    path: "{{ prometheus_folder }}"
+    state: directory
+
+- name: Create prometheus data storage directory
+  file:
+    path: "{{ prometheus_data_folder }}"
+    state: directory
+
+- name: Give insecure permissions to prometheus data storage
+  file:
+    path: "{{ prometheus_data_folder }}"
+    owner: "{{ sudoer }}"
+    group: "{{ sudoer }}"
+    mode: "0777"
+
+- name: Copy prometheus.yaml
+  copy:
+    src: "{{ source_folder }}/prometheus_config/prometheus.yml"
+    dest: "{{ prometheus_folder }}"
+
+- name: Copy docker-compose.yaml
+  copy:
+    src: "{{ source_folder }}/prometheus_config/docker-compose.yaml"
+    dest: "{{ prometheus_folder }}"
+
+- name: Run prometheus container
+  shell: "docker-compose up -d --force-recreate"
+  args:
+    chdir: "{{ prometheus_folder }}"

@@ -1,0 +1,41 @@
+- name: Install yum utils
+  yum:
+    name: yum-utils
+    state: latest
+
+- name: Install device-mapper-persistent-data
+  yum:
+    name: device-mapper-persistent-data
+    state: latest
+
+- name: Install lvm2
+  yum:
+    name: lvm2
+    state: latest
+
+- name: Add Docker repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+
+- name: Install Docker
+  package:
+    name: docker-ce
+    state: latest
+
+- name: Install Docker-py
+  pip:
+    name: docker-py
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+    
+# IT is not a good setting you can remove it
+- name: Add user to docker group
+  user:
+    name: "{{ user }}"
+    groups: docker
+    append: yes

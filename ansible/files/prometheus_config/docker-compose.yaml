@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.19.0
+    restart: on-failure
+    hostname: prometheus
+    container_name: prometheus
+    ports:
+        - 9090:9090
+    volumes:
+        - /home/cloud-user/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+        - /data/prometheus:/prometheus

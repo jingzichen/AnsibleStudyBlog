@@ -1,0 +1,9 @@
+- name: Copy Docker daemon.json.
+  copy:
+    src: "{{ source_folder }}/daemon.json"
+    dest: /etc/docker/daemon.json
+
+- name: Restart Docker service
+  service:
+    name: docker
+    state: restarted
