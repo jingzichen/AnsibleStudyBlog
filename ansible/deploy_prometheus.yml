@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: no
+  become: true
+  tasks:
+    - name: Prepare Prometheus files
+      import_role:
+        name: prometheus
+      vars:
+        sudoer: cloud-user
+        source_folder: ../files
+        prometheus_folder: /home/cloud-user/prometheus
+        prometheus_data_folder: /data/prometheus
